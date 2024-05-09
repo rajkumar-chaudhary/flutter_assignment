@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PageController _pageController = PageController(initialPage: 0);
+  int _currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,16 +163,75 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const Space(20),
-              GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SurveyScreen(),
-                      ),
-                    );
+              SizedBox(
+                height: 230,
+                width: double.infinity,
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (int index) {
+                    setState(() {
+                      _currentPageIndex = index;
+                    });
                   },
-                  child: TrendingSurveyWidget()),
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SurveyScreen(),
+                            ),
+                          );
+                        },
+                        child: TrendingSurveyWidget()),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SurveyScreen(),
+                            ),
+                          );
+                        },
+                        child: TrendingSurveyWidget()),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SurveyScreen(),
+                            ),
+                          );
+                        },
+                        child: TrendingSurveyWidget()),
+                  ],
+                ),
+              ),
+              Space(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  3,
+                  (index) => GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(index,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeInOut);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      width: 10.0,
+                      height: 10.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _currentPageIndex == index
+                            ? const Color.fromRGBO(5, 50, 46, 1)
+                            : Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
               const Space(40),
               const Text(
                 'Current Rewards',
